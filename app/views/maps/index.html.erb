@@ -1,0 +1,43 @@
+<h1>🗺️ 地図表示アプリ</h1>
+
+<%= form_with url: maps_path, method: :get, local: true do |f| %>
+  <%= f.label :city, "都市名を入力：" %>
+  <%= f.text_field :city, value: params[:city] %>
+  <%= f.submit "地図表示" %>
+<% end %>
+
+<div id="map" style="height: 500px; width: 100%; margin-top: 20px;"></div>
+
+<% if params[:city].present? %>
+  <script>
+    async function initMap() {
+      const city = "<%= j params[:city] %>";
+
+      // GoogleのジオコーディングAPIを使って都市の座標を取得
+      const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(city)}&key=AIzaSyApFOiMh8pH_dY9Zs8P9Tieslwbu7Ni4-Y`);
+      const data = await res.json();
+
+      if (data.status === "OK") {
+        const location = data.results[0].geometry.location;
+        const map = new google.maps.Map(document.getElementById("map"), {
+          center: location,
+          zoom: 10,
+        });
+
+        new google.maps.Marker({
+          position: location,
+          map: map,
+          title: city,
+        });
+      } else {
+        alert("都市が見つかりませんでした！");
+      }
+    }
+    window.initMap = initMap;
+  </script>
+
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApFOiMh8pH_dY9Zs8P9Tieslwbu7Ni4-Y&callback=initMap">
+  </script>
+<% end %>
+
