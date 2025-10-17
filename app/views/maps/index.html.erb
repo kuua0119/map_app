@@ -14,7 +14,7 @@
       const city = "<%= j params[:city] %>";
 
       // GoogleのジオコーディングAPIを使って都市の座標を取得
-      const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(city)}&key=AIzaSyApFOiMh8pH_dY9Zs8P9Tieslwbu7Ni4-Y`);
+      const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(city)}&key=<%= ENV["GOOGLE_MAPS_API_KEY"] %>`);
       const data = await res.json();
 
       if (data.status === "OK") {
@@ -37,7 +37,6 @@
   </script>
 
   <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApFOiMh8pH_dY9Zs8P9Tieslwbu7Ni4-Y&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=<%= ENV["GOOGLE_MAPS_API_KEY"] %>&callback=initMap">
   </script>
 <% end %>
-
