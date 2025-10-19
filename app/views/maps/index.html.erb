@@ -1,19 +1,22 @@
-<h1>🗺️ 地図表示アプリ</h1>
+<h1 class="title">🗺️ 地図表示アプリ</h1>
 
-<%= form_with url: maps_path, method: :get, local: true do |f| %>
-  <%= f.label :city, "都市名を入力：" %>
-  <%= f.text_field :city, value: params[:city] %>
-  <%= f.submit "地図表示" %>
-<% end %>
+<div class="card">
+  <%= form_with url: maps_path, method: :get, local: true, html: { class: "form-area" } do |f| %>
+    <div class="input-group">
+      <%= f.label :city, "都市名を入力", class: "label" %>
+      <%= f.text_field :city, value: params[:city], class: "input" %>
+      <%= f.submit "地図表示", class: "button" %>
+    </div>
+  <% end %>
+</div>
 
-<div id="map" style="height: 500px; width: 100%; margin-top: 20px;"></div>
+<div id="map" class="map"></div>
 
 <% if params[:city].present? %>
   <script>
     async function initMap() {
       const city = "<%= j params[:city] %>";
 
-      // GoogleのジオコーディングAPIを使って都市の座標を取得
       const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(city)}&key=<%= ENV["GOOGLE_MAPS_API_KEY"] %>`);
       const data = await res.json();
 
@@ -21,7 +24,7 @@
         const location = data.results[0].geometry.location;
         const map = new google.maps.Map(document.getElementById("map"), {
           center: location,
-          zoom: 10,
+          zoom: 11,
         });
 
         new google.maps.Marker({
@@ -36,7 +39,5 @@
     window.initMap = initMap;
   </script>
 
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=<%= ENV["GOOGLE_MAPS_API_KEY"] %>&callback=initMap">
-  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= ENV["GOOGLE_MAPS_API_KEY"] %>&callback=initMap"></script>
 <% end %>
