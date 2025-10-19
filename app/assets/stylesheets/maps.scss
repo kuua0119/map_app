@@ -77,3 +77,35 @@ body {
   overflow: hidden;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
+
+.recent-cities {
+  margin-top: 20px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.recent-cities h3 {
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #007bff;
+}
+
+.recent-cities ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.recent-cities li {
+  margin: 5px 0;
+}
+
+.recent-cities a {
+  text-decoration: none;
+  color: #333;
+}
+
+.recent-cities a:hover {
+  color: #007bff;
+}
